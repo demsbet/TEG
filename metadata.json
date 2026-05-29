@@ -1,0 +1,6 @@
+{
+  "name": "TEG - Tenfi Engineering Group",
+  "description": "Site vitrine professionnel interactif et moderne pour Tenfi Engineering Group SARL - Spécialiste de l'ingénierie médicale en Afrique Centrale.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
