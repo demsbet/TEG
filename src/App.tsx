@@ -20,10 +20,11 @@ import ProjectsSection from './components/ProjectsSection';
 import ContactDevisSection from './components/ContactDevisSection';
 
 // Lucide icons for footer metadata
-import { Award, ShieldAlert, Cpu, Heart, CheckCircle2, MapPin } from 'lucide-react';
+import { Award, ShieldAlert, Cpu, Heart, CheckCircle2, MapPin, Settings } from 'lucide-react';
 
 export default function App() {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('accueil');
 
   // Shared Core States, synchronized to simulate a fully interactive CRUD admin backend!
@@ -93,7 +94,12 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased selection:bg-emerald-100 selection:text-emerald-900">
       
       {/* 1. AdminModeBanner representing a real-time editable workspace for showcase and SEO admins */}
-      <AdminModeBanner isAdmin={isAdmin} setIsAdmin={setIsAdmin} />
+      <AdminModeBanner 
+        isAdmin={isAdmin} 
+        setIsAdmin={setIsAdmin} 
+        isModalOpen={isAdminModalOpen} 
+        setIsModalOpen={setIsAdminModalOpen} 
+      />
 
       {/* 2. Premium Sticky Header */}
       <Header 
@@ -277,10 +283,24 @@ export default function App() {
 
         {/* Outer credit line */}
         <div className="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-slate-800 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans">
-          <span>
-            © {new Date().getFullYear()} **TEG (Tenfi Engineering Group SARL)**. Tous droits réservés.
-          </span>
-          <span className="text-[10px] bg-slate-950 border border-slate-850 px-2.5 py-1 rounded-md text-slate-400 font-mono">
+          <div className="flex flex-col items-center sm:items-start gap-2.5">
+            <span>
+              © {new Date().getFullYear()} **TEG (Tenfi Engineering Group SARL)**. Tous droits réservés.
+            </span>
+            <button
+              onClick={isAdmin ? () => { if (confirm("Voulez-vous désactiver le mode administrateur ?")) setIsAdmin(false); } : () => setIsAdminModalOpen(true)}
+              title={isAdmin ? "Désactiver le Mode Administrateur" : "Accès Administration"}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] font-mono border transition-all duration-300 cursor-pointer ${
+                isAdmin 
+                  ? 'bg-emerald-950/80 border-emerald-500/30 text-emerald-400 hover:bg-emerald-900/80 hover:border-emerald-500/50' 
+                  : 'bg-slate-950/50 border-slate-800 text-slate-600 hover:text-slate-400 hover:border-slate-700'
+              }`}
+            >
+              <Settings size={12} className={isAdmin ? 'animate-spin [animation-duration:8s]' : 'transition-transform duration-500 hover:rotate-45'} />
+              <span>{isAdmin ? "Admin Actif (Désactiver)" : "Espace Admin"}</span>
+            </button>
+          </div>
+          <span className="text-[10px] bg-slate-950 border border-slate-850 px-2.5 py-1 rounded-md text-slate-400 font-mono self-center sm:self-end">
             Ingénierie Spécialisée & Maintenance Biomédicale en Afrique Centrale (Cameroun, Tchad, Djibouti)
           </span>
         </div>
